@@ -1,5 +1,5 @@
 
-// link : https://leetcode.com/problems/pacific-atlantic-water-flow
+// https://leetcode.com/problems/pacific-atlantic-water-flow/
 
 class Solution {
     int n;
