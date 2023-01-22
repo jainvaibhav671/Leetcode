@@ -1,26 +1,28 @@
-# https://leetcode.com/problems/non-decreasing-subsequences/submissions/881995631/
 
+# https://leetcode.com/problems/restore-ip-addresses
 
 class Solution:
-    def __init__(self):
-        self.ans: set = set()
+    def isValid(self, string: str) -> bool:
+        n: int = len(string)
+        if n > 3 or n == 0:
+            return False
+        if n > 1 and string[0] == '0':
+            return False
+        if n and int(string) > 255:
+            return False
+        return True
 
-    def backtrack(self, nums: List[int], ind: int = 0, seq: List[int] = []):
-
-        resSeq: List[int] = list(map(lambda x: nums[x], seq)).copy()
-        if len(seq) >= 2:
-            self.ans.add(tuple(resSeq))
-
-        if ind >= len(nums):
+    def solve(self, ans, output, ind, s, dots):
+        if dots == 3:
+            if self.isValid(s[ind:]):
+                ans.append(output + s[ind:])
             return
+        for i in range(ind, min(ind+3, len(s))):
+            if self.isValid(s[ind:i+1]):
+                new_output = output + s[ind:i+1] + '.'
+                self.solve(ans, new_output, i+1, s, dots+1)
 
-        if not seq or nums[ind] >= nums[seq[-1]]:
-            seq.append(ind)
-            self.backtrack(nums, ind + 1, seq)
-            seq.pop()
-
-        self.backtrack(nums, ind + 1, seq)
-
-    def findSubsequences(self, nums: List[int]) -> List[List[int]]:
-        self.backtrack(nums, 0, [])
-        return self.ans
+    def restoreIpAddresses(self, s: str) -> List[str]:
+        ans = []
+        self.solve(ans, "", 0, s, 0)
+        return ans

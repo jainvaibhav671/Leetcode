@@ -1,21 +1,19 @@
 
-# https://leetcode.com/problems/maximum-sum-circular-subarray/
+# https://leetcode.com/problems/subarray-sums-divisible-by-k/submissions
 
 class Solution:
-    def maxSubarraySumCircular(self, nums: List[int]) -> int:
+    def subarraysDivByK(self, nums: List[int], k: int) -> int:
+
         n: int = len(nums)
-        maxSum: int = nums[0]
-        minSum: int = nums[0]
-        currMax: int = 0
-        currMin: int = 0
+        prefixSum: List[int] = [0]*k
 
-        total: int = 0
-        for x in nums:
-            total += x
-            currMax = max(currMax+x, x)
-            currMin = min(currMin+x, x)
+        prefixSum[0] += 1
+        cnt: int = 0
+        currSum: int = 0
 
-            maxSum = max(maxSum, currMax)
-            minSum = min(minSum, currMin)
+        for i in range(n):
+            currSum = (currSum + nums[i]%k + k)%k
+            cnt += prefixSum[currSum]
+            prefixSum[currSum] += 1
 
-        return max(maxSum, total - minSum) if maxSum > 0 else maxSum
+        return cnt   

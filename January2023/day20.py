@@ -1,19 +1,26 @@
+# https://leetcode.com/problems/non-decreasing-subsequences/submissions/881995631/
 
-# https://leetcode.com/problems/subarray-sums-divisible-by-k/submissions
 
 class Solution:
-    def subarraysDivByK(self, nums: List[int], k: int) -> int:
+    def __init__(self):
+        self.ans: set = set()
 
-        n: int = len(nums)
-        prefixSum: List[int] = [0]*k
+    def backtrack(self, nums: List[int], ind: int = 0, seq: List[int] = []):
 
-        prefixSum[0] += 1
-        cnt: int = 0
-        currSum: int = 0
+        resSeq: List[int] = list(map(lambda x: nums[x], seq)).copy()
+        if len(seq) >= 2:
+            self.ans.add(tuple(resSeq))
 
-        for i in range(n):
-            currSum = (currSum + nums[i]%k + k)%k
-            cnt += prefixSum[currSum]
-            prefixSum[currSum] += 1
+        if ind >= len(nums):
+            return
 
-        return cnt   
+        if not seq or nums[ind] >= nums[seq[-1]]:
+            seq.append(ind)
+            self.backtrack(nums, ind + 1, seq)
+            seq.pop()
+
+        self.backtrack(nums, ind + 1, seq)
+
+    def findSubsequences(self, nums: List[int]) -> List[List[int]]:
+        self.backtrack(nums, 0, [])
+        return self.ans
