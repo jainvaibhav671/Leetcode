@@ -1,4 +1,3 @@
-
 from typing import Optional
 
 # Definition for a binary tree node.
@@ -12,7 +11,6 @@ class TreeNode:
 
 
 class Solution:
-
     def traverse(self, left: Optional[TreeNode], right: Optional[TreeNode]):
         if not left and not right:
             return True
